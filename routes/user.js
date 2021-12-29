@@ -10,7 +10,17 @@ router.post('/signup',async(req,res)=>
         user.save()
         res.status(200).send(user)
     } catch (e) {
-        res.status(500).send('ERROR')
+        res.status(400).send('ERROR')
+    }
+})
+router.post('/login',async(req,res)=>
+{
+    try {
+        var user =await User.findByCredintials(req.body.email,req.body.password); 
+       
+        res.status(200).send(user)
+    } catch (e) {
+        res.status(400).send({msg:'error'})
     }
 })
 module.exports = router;

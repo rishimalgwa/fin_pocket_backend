@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const assets = mongoose.Schema({
+    assetType:String,
     buy_price:Number,
     quantity:Number,
     name:String,
