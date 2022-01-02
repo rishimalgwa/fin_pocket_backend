@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
-const assets = mongoose.Schema({
+const assetsSchema = mongoose.Schema({
     assetType:String,
-    buy_price:Number,
+    buyPrice:Number,
     quantity:Number,
     name:String,
-    date_of_purchase :Date,
+    dateOfPurchase :Date,
+    dateOfSell :Date,
     symbol: String,
-    last_checked_price:Number,
+    lastCheckedPrice:Number,
+    isSelled:Boolean
 })
-
-module.exports = assets;
+const Assets = mongoose.model("Assets", assetsSchema);
+module.exports = Assets;
