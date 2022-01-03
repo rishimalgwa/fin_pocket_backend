@@ -9,7 +9,12 @@ const assetsSchema = mongoose.Schema({
     dateOfSell :Date,
     symbol: String,
     lastCheckedPrice:Number,
-    isSelled:Boolean
+    isSelled:Boolean,
+    owner:{
+        type: mongoose.Schema.Types.ObjectId,
+        require:true,
+        Ref:'Users'
+    }
 })
 const Assets = mongoose.model("Assets", assetsSchema);
 module.exports = Assets;

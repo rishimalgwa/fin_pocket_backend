@@ -3,10 +3,11 @@ const Assets = require('../models/assets')
 const router = express.Router();
 var request = require('request');
 const assets = require('../models/assets');
+const auth = require('../middleware/auth')
 
 const API_KEY =process.env.API_KEY;
 
-router.post('/addAsset',async(req,res)=>
+router.post('/addAsset',auth,async(req,res)=>
 {
   var url ='';
 
@@ -43,12 +44,12 @@ currentPrice  = parseInt(data['Global Quote']['05. price']);
         currentPrice  = parseInt(data['Realtime Currency Exchange Rate']['5. Exchange Rate']);
       }
      
-        var asset = Assets({...req.body,"lastCheckedPrice":currentPrice}); 
+        var asset = Assets({...req.body,"lastCheckedPrice":currentPrice,"owner":req.user._id}); 
         try {
           await asset.save()
           res.status(200).send(asset)
         } catch (e) {
-            res.status(500).send('ERROR')
+            res.status(500).send({error:'ERROR'})
         }
        }
    });
