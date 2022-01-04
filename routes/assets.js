@@ -53,6 +53,16 @@ currentPrice  = parseInt(data['Global Quote']['05. price']);
         }
        }
    });
-    
 })
+router.get('/myAssets',auth,async(req,res)=>{
+  try {
+    const assets = await Assets.find({owner:req.user._id})
+  
+  //  await req.user.populate('assets').execPopulate()
+  //req.user.assets
+   res.send(assets)
+  } catch (e) {
+    res.status(400).send({error:'error in fetching assets'})
+  }
+ })
 module.exports = router;

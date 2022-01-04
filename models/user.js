@@ -21,8 +21,8 @@ const userSchema = mongoose.Schema({
 
 userSchema.virtual('assets',{
   Ref:'Assets',
- localField: '_id',
- forgienField:'owner'
+  localField: '_id',
+  foreignField:'owner'
 })
 
 userSchema.statics.findByCredintials = async (email, password) => {
