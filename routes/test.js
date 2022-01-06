@@ -2,7 +2,6 @@ const express = require('express')
 
 const router = express.Router();
 
-
 router.get('/',async(req,res)=>
 {
     try {
@@ -11,4 +10,5 @@ router.get('/',async(req,res)=>
         res.status(500).send('ERROR')
     }
 })
+
 module.exports = router;
