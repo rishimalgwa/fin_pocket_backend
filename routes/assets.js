@@ -5,7 +5,9 @@ var request = require("request");
 const assets = require("../models/assets");
 const auth = require("../middleware/auth");
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = 
+//process.env.API_KEY;
+console.log(API_KEY);
 
 router.post("/addAsset", auth, async (req, res) => {
   var url = "";
@@ -66,23 +68,29 @@ router.post("/addAsset", auth, async (req, res) => {
   );
 });
 router.get("/myAssets", auth, async (req, res) => {
-  var url = "";
+ 
   try {
     const assets = await Assets.find({ owner: req.user._id });
-    assets.forEach((asset) => {
+    finalAssests = []
+     for (var asset of assets){
+      var url = "";
+    
       if (asset.assetType === "stock") {
         url =
           "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" +
           asset.symbol +
           ".BSE&apikey=" +
           API_KEY;
+          console.log(url);
       } else if (asset.assetType === "crypto") {
         url =
           "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" +
           asset.symbol +
           "&to_currency=INR&apikey=" +
           API_KEY;
+          console.log(url);
       } else {
+        console.log(asset);
         res.status(404).send({ error: "asset type not supported" });
       }
       request.get(
@@ -100,32 +108,31 @@ router.get("/myAssets", auth, async (req, res) => {
             console.log("Status:", res.statusCode);
           } else {
             // data is successfully parsed as a JSON object:
-            // console.log(data);
+            //console.log(data);
             var currentPrice = 0;
-            if (req.body.assetType === "stock") {
+            if (asset.assetType === "stock") {
+            
               currentPrice = parseInt(data["Global Quote"]["05. price"]);
             } else {
               currentPrice = parseInt(
                 data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-              );
+                );
+                asset.lastCheckedPrice = currentPrice;
             }
-              //TODO: update price here 
-            var asset = Assets({
-              ...req.body,
-              lastCheckedPrice: currentPrice,
-              owner: req.user._id,
-            });
+              
+            
             
           }
         }
       );
+   
+       finalAssests.push(asset)
+   
 
-    });
-
-    //  await req.user.populate('assets').execPopulate()
-    //req.user.assets
-
-    res.send(assets);
+    // //  await req.user.populate('assets').execPopulate()
+    // //req.user.assets
+     }
+    res.send(finalAssests);
   } catch (e) {
     res.status(400).send({ error: "error in fetching assets" });
   }
