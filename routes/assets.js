@@ -130,63 +130,7 @@ router.get("/myAssets", auth, async (req, res) => {
        finalAssests.push(asset);
 
     }
-   // await asyncForEach(assets, async (asset, index,assetsArray) => {
-      // var url = "";
-     
-      // if (asset.assetType === "stock") {
-      //   url =
-      //      "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" +
-      //      asset.symbol +
-      //      ".BSE&apikey=" +
-      //      API_KEY;
-      //    console.log(url);
-      //  } else if (asset.assetType === "crypto") {
-      //    url =
-      //      "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" +
-      //      asset.symbol +
-      //      "&to_currency=INR&apikey=" +
-      //      API_KEY;
-      //   console.log(url);
-      // } else {
-      //   console.log(asset);
-      //   res.status(404).send({ error: "asset type not supported" });
-      // }
-      // // console.log("before request");
-      // // console.log(asset.assetType);
-      // request(
-      //   {
-      //     url: url,
-      //     json: true,
-      //     headers: { "User-Agent": "request" },
-      //   },
-      //   async (error, response, data) =>{
-      //     if (error) {
-      //       res.status(400).send({ error });
-      //     } else {
-      //       var currentPrice = 0;
-      //       if (asset.assetType === "stock") {
-      //         console.log("after request");
-      //         console.log(asset.assetType);
-      //         console.log(data["Global Quote"]["05. price"]);
-      //         currentPrice = parseInt(data["Global Quote"]["05. price"]);
-      //       } else if (asset.assetType === "crypto") {
-      //         console.log("after request");
-      //         console.log(asset.assetType);
-      //         console.log(
-      //           data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-      //         );
-      //         currentPrice = parseInt(
-      //           data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-      //         );
-      //       } else {
-      //         console.log("error");
-      //       }
-      //       asset.lastCheckedPrice = currentPrice;
-      //     }
-      //   }
-      // );
-      //  finalAssests.push(asset);
-  //  });
+   
       res.send(finalAssests);
   } catch (e) {
     res.status(400).send({ error: "error in fetching assets" });
