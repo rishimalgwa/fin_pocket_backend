@@ -25,20 +25,15 @@ router.post("/addAsset", auth, async (req, res) => {
   } else {
     res.status(404).send({ error: "asset type not supported" });
   }
-  request.get(
+    await axios(
     {
       url: url,
       json: true,
       headers: { "User-Agent": "request" },
-    },
-    async (err, resp, data) => {
-      if (err) {
-        res.status(500);
-        console.log("Error:", err);
-      } else if (res.statusCode !== 200) {
-        res.status(404);
-        console.log("Status:", res.statusCode);
-      } else {
+    }
+  ).then(async(response)=>{
+      
+        var data =response.data;
         // data is successfully parsed as a JSON object:
         // console.log(data);
         var currentPrice = 0;
@@ -61,9 +56,12 @@ router.post("/addAsset", auth, async (req, res) => {
         } catch (e) {
           res.status(500).send({ error: "ERROR" });
         }
-      }
-    }
-  );
+      
+    
+  }).catch((err)=>{
+    console.log("Error:", err);
+    res.status(500);
+  });
 });
 router.get("/myAssets", auth, async (req, res) => {
   try {
