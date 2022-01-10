@@ -24,12 +24,29 @@ router.post("/addAsset", auth, async (req, res) => {
 });
 router.get("/myAssets", auth, async (req, res) => {
   try {
+   var isGreaterThanFive =false;
+   var isGreaterThanTen =false;
     const assets = await Assets.find({ owner: req.user._id });
     finalAssests = [];
+    if(assets.length>5){
+      if(assets.length >10){
+        // add 3rd api key
+        isGreaterThanTen = true;
+      }else{
+        // add 2ndapi key
+        isGreaterThanFive = true;
+      }
+    }
     for (var i = 0; i < assets.length; i++) {
       var asset = assets[i];
       var url = "";
-
+        if (isGreaterThanTen && i > 10) {
+          // change api key
+        }else if(isGreaterThanFive && i>5 && i<=10){
+          
+        }else{
+          
+        }
       if (asset.assetType === "stock") {
         url =
           "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" +
