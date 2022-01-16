@@ -59,14 +59,14 @@ router.get("/myAssets", auth, async (req, res) => {
           asset.symbol +
           ".BSE&apikey=" +
           apikey;
-        console.log(url);
+       
       } else if (asset.assetType === "crypto") {
         url =
           "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" +
           asset.symbol +
           "&to_currency=INR&apikey=" +
           apikey;
-        console.log(url);
+      
       } else {
         console.log(asset);
         res.status(404).send({ error: "asset type not supported" });
@@ -84,16 +84,10 @@ router.get("/myAssets", auth, async (req, res) => {
 
           var currentPrice = 0;
           if (asset.assetType === "stock") {
-            console.log("after request");
-            console.log(asset.assetType);
-            console.log(data["Global Quote"]["05. price"]);
+           
             currentPrice = parseInt(data["Global Quote"]["05. price"]);
           } else if (asset.assetType === "crypto") {
-            console.log("after request");
-            console.log(asset.assetType);
-            console.log(
-              data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-            );
+          
             currentPrice = parseInt(
               data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
             );
