@@ -44,13 +44,13 @@ router.get("/myAssets", auth, async (req, res) => {
       var asset = assets[i];
       var url = "";
         if (isGreaterThanTen && i > 10) {
-        console.log(3);
+       
         apikey = API_KEY2;
         }else if(isGreaterThanFive && i>5 && i<=10){
-         console.log(2);
+         
          apikey = API_KEY1;
         }else{
-          console.log(1);
+        
           apikey = API_KEY;
         }
       if (asset.assetType === "stock") {
