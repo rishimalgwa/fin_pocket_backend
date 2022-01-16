@@ -6,6 +6,8 @@ const axios = require("axios");
 const auth = require("../middleware/auth");
 
 const API_KEY = process.env.API_KEY;
+const API_KEY1 = process.env.API_KEY1;
+const API_KEY2 = process.env.API_KEY2;
 
 router.post("/addAsset", auth, async (req, res) => {
   var url = "";
@@ -37,29 +39,33 @@ router.get("/myAssets", auth, async (req, res) => {
         isGreaterThanFive = true;
       }
     }
+    var apikey= '';
     for (var i = 0; i < assets.length; i++) {
       var asset = assets[i];
       var url = "";
         if (isGreaterThanTen && i > 10) {
-          // change api key
+        console.log(3);
+        apikey = API_KEY2;
         }else if(isGreaterThanFive && i>5 && i<=10){
-          
+         console.log(2);
+         apikey = API_KEY1;
         }else{
-          
+          console.log(1);
+          apikey = API_KEY;
         }
       if (asset.assetType === "stock") {
         url =
           "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" +
           asset.symbol +
           ".BSE&apikey=" +
-          API_KEY;
+          apikey;
         console.log(url);
       } else if (asset.assetType === "crypto") {
         url =
           "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" +
           asset.symbol +
           "&to_currency=INR&apikey=" +
-          API_KEY;
+          apikey;
         console.log(url);
       } else {
         console.log(asset);
