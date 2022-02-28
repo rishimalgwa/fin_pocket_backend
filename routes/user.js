@@ -26,7 +26,7 @@ router.post('/login',async(req,res)=>
        
         res.status(200).send({user,token})
     } catch (e) {
-        res.status(400).send({msg:'error'})
+        res.status(400).send({msg:'error',e})
     }
 })
 router.post('/logout',auth,async(req,res)=>
